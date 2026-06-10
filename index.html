@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EvoFox Ghost Air Configuration Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="glow-bg"></div>
+    <div class="app-container">
+        <!-- Sidebar / Profiles Panel -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <span class="logo-text">EVOFOX</span>
+                <span class="logo-subtext">GHOST AIR</span>
+            </div>
+            
+            <div class="connection-status" id="connection-status">
+                <div class="status-indicator"></div>
+                <span class="status-text">Checking device...</span>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>Profiles</h3>
+                <div class="profile-list" id="profile-list">
+                    <!-- Profile items will be injected here -->
+                </div>
+                <button class="btn btn-secondary btn-full" id="new-profile-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    New Profile
+                </button>
+            </div>
+            
+            <div class="sidebar-actions">
+                <button class="btn btn-primary btn-full" id="apply-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Save & Apply
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Dashboard Content -->
+        <main class="main-content">
+            <!-- Top Navigation Tab Menu -->
+            <nav class="top-nav">
+                <button class="nav-tab active" data-tab="buttons" id="tab-btn-buttons">Buttons</button>
+                <button class="nav-tab" data-tab="dpi" id="tab-btn-dpi">DPI Config</button>
+                <button class="nav-tab" data-tab="lighting" id="tab-btn-lighting">RGB Lighting</button>
+            </nav>
+
+            <div class="tab-viewport">
+                <!-- Tab 1: Button Remapping -->
+                <section class="tab-panel active" id="panel-buttons">
+                    <div class="panel-layout">
+                        <!-- Interactive Mouse SVG -->
+                        <div class="mouse-viewer">
+                            <div class="mouse-svg-wrapper">
+                                <svg id="mouse-svg" viewBox="0 0 300 500" width="100%" height="100%">
+                                    <defs>
+                                        <radialGradient id="mouse-glow" cx="50%" cy="50%" r="50%">
+                                            <stop offset="0%" stop-color="var(--accent-glow)" stop-opacity="0.3"/>
+                                            <stop offset="100%" stop-color="var(--accent-glow)" stop-opacity="0"/>
+                                        </radialGradient>
+                                    </defs>
+                                    <circle cx="150" cy="250" r="180" fill="url(#mouse-glow)"/>
+                                    <!-- Mouse Base Outline -->
+                                    <path class="mouse-base" d="M150 40 C100 40, 60 90, 60 180 C60 270, 70 350, 90 410 C105 440, 120 460, 150 460 C180 460, 195 440, 210 410 C230 350, 240 270, 240 180 C240 90, 200 40, 150 40 Z" />
+                                    
+                                    <!-- Left Click (1) -->
+                                    <path id="svg-btn-1" class="mouse-btn-path" d="M63 175 C61 140, 70 100, 90 70 C105 50, 125 45, 147 44 L147 195 C115 195, 85 190, 63 175 Z" />
+                                    
+                                    <!-- Right Click (2) -->
+                                    <path id="svg-btn-2" class="mouse-btn-path" d="M237 175 C239 140, 230 100, 210 70 C195 50, 175 45, 153 44 L153 195 C185 195, 215 190, 237 175 Z" />
+                                    
+                                    <!-- Center separator & scroll wheel area -->
+                                    <path d="M148 44 L152 44 L152 220 L148 220 Z" fill="#2d2d3d" />
+                                    
+                                    <!-- Scroll Wheel (3) & (15, 16) -->
+                                    <rect id="svg-btn-3" class="mouse-btn-path" x="145" y="85" width="10" height="40" rx="5" />
+                                    
+                                    <!-- DPI + (6) -->
+                                    <path id="svg-btn-6" class="mouse-btn-path" d="M140 155 L160 155 L157 175 L143 175 Z" />
+                                    
+                                    <!-- DPI - (7) -->
+                                    <path id="svg-btn-7" class="mouse-btn-path" d="M141 182 L159 182 L156 202 L144 202 Z" />
+                                    
+                                    <!-- Side Grip Highlights / Backlight Strip -->
+                                    <path d="M60 210 C58 240, 62 300, 70 350" fill="none" stroke="var(--accent-cyan)" stroke-width="2" opacity="0.6" />
+                                    <path d="M240 210 C242 240, 238 300, 230 350" fill="none" stroke="var(--accent-cyan)" stroke-width="2" opacity="0.6" />
+                                    
+                                    <!-- Side Buttons (visible on side profiles, but simplified here as indicators) -->
+                                    <!-- Forward (4) -->
+                                    <path id="svg-btn-4" class="mouse-btn-path side-btn" d="M50 220 C45 220, 40 230, 42 245 C44 255, 48 260, 52 260 Z" />
+                                    <!-- Backward (5) -->
+                                    <path id="svg-btn-5" class="mouse-btn-path side-btn" d="M48 270 C44 270, 39 280, 41 295 C43 305, 47 310, 51 310 Z" />
+                                    <!-- Sniper (8) -->
+                                    <path id="svg-btn-8" class="mouse-btn-path side-btn sniper-btn" d="M40 330 C35 330, 30 340, 32 355 C34 365, 38 370, 42 370 Z" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Remapping Controls -->
+                        <div class="config-settings scrollable-panel">
+                            <h2>Button Mapping</h2>
+                            <p class="panel-desc">Configure button actions. Select physical buttons to remap to key bindings, media functions, or mouse actions.</p>
+                            
+                            <div class="button-list">
+                                <div class="button-row" data-btn="1">
+                                    <label>1. Left Button</label>
+                                    <select class="btn-select" id="btn-select-1"></select>
+                                    <input type="text" class="btn-shortcut-input" id="btn-shortcut-1" placeholder="Press key..." readonly>
+                                </div>
+                                <div class="button-row" data-btn="2">
+                                    <label>2. Right Button</label>
+                                    <select class="btn-select" id="btn-select-2"></select>
+                                    <input type="text" class="btn-shortcut-input" id="btn-shortcut-2" placeholder="Press key..." readonly>
+                                </div>
+                                <div class="button-row" data-btn="3">
+                                    <label>3. Middle Button</label>
+                                    <select class="btn-select" id="btn-select-3"></select>
+                                    <input type="text" class="btn-shortcut-input" id="btn-shortcut-3" placeholder="Press key..." readonly>
+                                </div>
+                                <div class="button-row" data-btn="4">
+                                    <label>4. Forward Button</label>
+                                    <select class="btn-select" id="btn-select-4"></select>
+                                    <input type="text" class="btn-shortcut-input" id="btn-shortcut-4" placeholder="Press key..." readonly>
+                                </div>
+                                <div class="button-row" data-btn="5">
+                                    <label>5. Backward Button</label>
+                                    <select class="btn-select" id="btn-select-5"></select>
+                                    <input type="text" class="btn-shortcut-input" id="btn-shortcut-5" placeholder="Press key..." readonly>
+                                </div>
+                                <div class="button-row" data-btn="6">
+                                    <label>6. DPI + Button</label>
+                                    <select class="btn-select" id="btn-select-6"></select>
+                                    <input type="text" class="btn-shortcut-input" id="btn-shortcut-6" placeholder="Press key..." readonly>
+                                </div>
+                                <div class="button-row" data-btn="7">
+                                    <label>7. DPI - Button</label>
+                                    <select class="btn-select" id="btn-select-7"></select>
+                                    <input type="text" class="btn-shortcut-input" id="btn-shortcut-7" placeholder="Press key..." readonly>
+                                </div>
+                                <div class="button-row" data-btn="8">
+                                    <label>8. Sniper Button</label>
+                                    <select class="btn-select" id="btn-select-8"></select>
+                                    <input type="text" class="btn-shortcut-input" id="btn-shortcut-8" placeholder="Press key..." readonly>
+                                </div>
+                                <div class="button-row" data-btn="15">
+                                    <label>15. Scroll Wheel Up</label>
+                                    <select class="btn-select" id="btn-select-15"></select>
+                                    <input type="text" class="btn-shortcut-input" id="btn-shortcut-15" placeholder="Press key..." readonly>
+                                </div>
+                                <div class="button-row" data-btn="16">
+                                    <label>16. Scroll Wheel Down</label>
+                                    <select class="btn-select" id="btn-select-16"></select>
+                                    <input type="text" class="btn-shortcut-input" id="btn-shortcut-16" placeholder="Press key..." readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tab 2: DPI Configurator -->
+                <section class="tab-panel" id="panel-dpi">
+                    <div class="scrollable-panel">
+                        <h2>DPI Configurations</h2>
+                        <p class="panel-desc">Manage up to 8 DPI stages. Toggle stages and customize their resolution from 200 to 12400 DPI (in steps of 100).</p>
+                        
+                        <div class="perf-row">
+                            <div class="col-half">
+                                <label for="pointer-speed-slider">Pointer Speed (Windows scale): <span id="val-pointer-speed">10</span></label>
+                                <input type="range" id="pointer-speed-slider" min="1" max="20" value="10" class="slider">
+                            </div>
+                            <div class="col-half">
+                                <label for="double-click-slider">Double Click Speed: <span id="val-double-click">10</span></label>
+                                <input type="range" id="double-click-slider" min="1" max="20" value="10" class="slider">
+                            </div>
+                        </div>
+                        
+                        <div class="perf-row">
+                            <div class="col-half">
+                                <label for="polling-rate">USB Polling Rate</label>
+                                <select class="btn-select" id="polling-rate">
+                                    <option value="125">125 Hz (8ms)</option>
+                                    <option value="250">250 Hz (4ms)</option>
+                                    <option value="500">500 Hz (2ms)</option>
+                                    <option value="1000" selected>1000 Hz (1ms)</option>
+                                </select>
+                            </div>
+                            <div class="col-half">
+                                <label for="stages-count">Active DPI Stages</label>
+                                <select class="btn-select" id="stages-count">
+                                    <option value="1">1 Stage</option>
+                                    <option value="2">2 Stages</option>
+                                    <option value="3">3 Stages</option>
+                                    <option value="4">4 Stages</option>
+                                    <option value="5">5 Stages</option>
+                                    <option value="6">6 Stages</option>
+                                    <option value="7">7 Stages</option>
+                                    <option value="8" selected>8 Stages</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="dpi-stages-container" id="dpi-stages-container">
+                            <!-- DPI stages dynamic items -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tab 3: RGB Lighting -->
+                <section class="tab-panel" id="panel-lighting">
+                    <div class="scrollable-panel">
+                        <h2>LED Lighting Effects</h2>
+                        <p class="panel-desc">Set custom modes, pulsation speeds, brightness levels, and color presets.</p>
+                        
+                        <div class="lighting-controls">
+                            <div class="lighting-row">
+                                <label for="led-mode">Light Mode</label>
+                                <select class="btn-select" id="led-mode">
+                                    <option value="0">LED Off</option>
+                                    <option value="1">Static Color</option>
+                                    <option value="2">Breathing DPI</option>
+                                    <option value="3">Cycle Breathing</option>
+                                    <option value="4">Neon</option>
+                                    <option value="5">Key Reactive</option>
+                                    <option value="6">Tail Wave</option>
+                                    <option value="7">Alternating Tail</option>
+                                    <option value="8">Slide Mode</option>
+                                    <option value="9">Yo-Yo Mode</option>
+                                    <option value="10">Marble Bounce</option>
+                                    <option value="11">Flying Star</option>
+                                </select>
+                            </div>
+
+                            <div class="lighting-row">
+                                <label for="led-brightness">Intensity (Brightness): <span id="val-brightness">100%</span></label>
+                                <input type="range" id="led-brightness" min="0" max="27" value="27" class="slider">
+                            </div>
+
+                            <div class="lighting-row">
+                                <label for="led-speed">Pulsation (Speed): <span id="val-speed">Medium</span></label>
+                                <input type="range" id="led-speed" min="5" max="50" value="25" class="slider">
+                            </div>
+                        </div>
+                        
+                        <div class="custom-colors-section">
+                            <h3>LED DPI Stage Color Mapping</h3>
+                            <p class="panel-desc-small">Click a color patch to customize the indicator color for each DPI stage.</p>
+                            <div class="color-palette-grid" id="dpi-color-grid">
+                                <!-- Colors 1-12 will be dynamically generated with color picker inputs -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Rename Profile Modal -->
+    <div class="modal-backdrop" id="rename-modal">
+        <div class="modal-content">
+            <h2>Rename Profile</h2>
+            <input type="text" id="rename-profile-input" placeholder="Profile Name">
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" id="rename-cancel-btn">Cancel</button>
+                <button class="btn btn-primary" id="rename-save-btn">Save</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>

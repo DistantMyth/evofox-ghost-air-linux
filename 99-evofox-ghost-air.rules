@@ -1,0 +1,4 @@
+# udev rules for EvoFox Ghost Air gaming mouse configuration interface
+# Allows read/write access to the raw HID endpoints for non-root users
+
+KERNEL=="hidraw*", ATTRS{idVendor}=="04d9", ATTRS{idProduct}=="a09e", MODE="0666", TAG+="uaccess"

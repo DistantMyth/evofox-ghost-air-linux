@@ -1,0 +1,12 @@
+[Unit]
+Description=EvoFox Ghost Air Mouse Configuration Service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/.local/share/evofox-ghost-air
+ExecStart=%h/.local/share/evofox-ghost-air/venv/bin/python backend.py
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

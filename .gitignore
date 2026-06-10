@@ -1,0 +1,12 @@
+# Windows installer and extracts
+EvoFox_Ghost_Air_1.exe
+extracted/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Local/Agent configurations
+.gemini/
+.idea/
+.vscode/

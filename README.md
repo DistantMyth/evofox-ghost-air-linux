@@ -27,6 +27,10 @@ chmod +x install.sh
 ./install.sh
 ```
 
+> **Note**: The installer will prompt for your `sudo` password to install the required system packages (`python3-venv`, `hidapi`) and set up the `/etc/udev/rules.d/` permissions. 
+
+**IMPORTANT**: Once the script finishes successfully, **unplug and replug your mouse** so the system applies the newly installed udev permissions.
+
 ### 2. Configure Your Mouse
 Open your web browser and navigate to:
 

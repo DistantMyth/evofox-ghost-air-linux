@@ -5,7 +5,10 @@ import time
 import http.server
 import socketserver
 import urllib.parse
-import hid
+try:
+    import hidraw as hid
+except ImportError:
+    import hid
 
 VID = 0x04D9
 PID = 0xA09E
@@ -128,7 +131,7 @@ def find_mouse_devices():
             # Interface 0 (Usage Page 1, Usage 2) is data endpoint
             if dev['interface_number'] == 0:
                 data_path = dev['path']
-            elif dev['interface_number'] == 1 and dev['usage'] == 0x06:
+            elif dev['interface_number'] == 1:
                 cmd_path = dev['path']
                 
     return cmd_path, data_path
@@ -188,13 +191,13 @@ def apply_profile_to_mouse(profile):
         # Write Block 4
         h_cmd.send_feature_report([0x01, 0xAA, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00])
         time.sleep(0.02)
-        h_data.send_feature_report([0x01] + b4)
+        h_data.send_feature_report([0x00] + b4)
         time.sleep(0.02)
         
         # Write Block 5
         h_cmd.send_feature_report([0x01, 0xAA, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00])
         time.sleep(0.02)
-        h_data.send_feature_report([0x01] + b5)
+        h_data.send_feature_report([0x00] + b5)
         time.sleep(0.02)
     finally:
         h_cmd.close()

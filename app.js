@@ -29,7 +29,7 @@ const BUTTON_ACTIONS = {
     "volume_up": { name: "Volume +", group: 2, value: 0x05 },
     "volume_down": { name: "Volume -", group: 2, value: 0x06 },
     "mute": { name: "Mute", group: 2, value: 0x07 },
-    "keyboard": { name: "Keyboard Key", group: 1, value: 0x04 }
+    "keyboard": { name: "Keyboard Key", group: 6, value: 0x04 }
 };
 
 // Keyboard Code to USB HID Usage ID Mapping
@@ -213,7 +213,7 @@ function handleButtonActionChange(btnIdx, actionKey) {
             const hidCode = CODE_TO_HID[e.code];
             if (hidCode) {
                 profile.buttons[profileBtnIdx].value = hidCode;
-                profile.buttons[profileBtnIdx].group = 1;
+                profile.buttons[profileBtnIdx].group = 6;
                 profile.buttons[profileBtnIdx].action = "keyboard";
                 input.value = HID_TO_NAME[hidCode];
                 input.blur();
@@ -327,8 +327,13 @@ function renderProfilesSidebar() {
         const label = document.createElement("span");
         label.className = "profile-name";
         label.textContent = name;
-        label.addEventListener("click", () => switchActiveProfile(name));
         item.appendChild(label);
+        
+        item.addEventListener("click", (e) => {
+            if (!e.target.closest('.profile-action-btn')) {
+                switchActiveProfile(name);
+            }
+        });
         
         // Action buttons
         const actions = document.createElement("div");
@@ -386,6 +391,20 @@ function loadActiveProfileData() {
             if (btnData.action === "keyboard") {
                 input.style.display = "block";
                 input.value = HID_TO_NAME[btnData.value] || "Press Key...";
+                
+                input.onkeydown = (e) => {
+                    e.preventDefault();
+                    const hidCode = CODE_TO_HID[e.code];
+                    if (hidCode) {
+                        const profile = getActiveProfile();
+                        profile.buttons[arrayIdx].value = hidCode;
+                        profile.buttons[arrayIdx].group = 6;
+                        profile.buttons[arrayIdx].action = "keyboard";
+                        input.value = HID_TO_NAME[hidCode];
+                        input.blur();
+                        saveProfilesDatabase();
+                    }
+                };
             } else {
                 input.style.display = "none";
             }

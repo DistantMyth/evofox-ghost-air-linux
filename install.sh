@@ -88,7 +88,23 @@ echo "Reloading udev rules..."
 sudo udevadm control --reload-rules
 sudo udevadm trigger
 
-# 9. Enable and start systemd user service
+# 9. Create Desktop Entry
+echo "Creating application shortcut..."
+DESKTOP_ENTRY_DIR="$HOME/.local/share/applications"
+mkdir -p "$DESKTOP_ENTRY_DIR"
+cat << EOF > "$DESKTOP_ENTRY_DIR/evofox-ghost-air.desktop"
+[Desktop Entry]
+Name=EvoFox Ghost Air Config
+Comment=Configuration Dashboard for EvoFox Ghost Air Mouse
+Exec=xdg-open http://localhost:18988
+Icon=input-mouse
+Terminal=false
+Type=Application
+Categories=Settings;HardwareSettings;
+EOF
+update-desktop-database "$DESKTOP_ENTRY_DIR" 2>/dev/null || true
+
+# 10. Enable and start systemd user service
 echo "Starting background configuration service..."
 systemctl --user daemon-reload
 systemctl --user enable evofox-ghost-air.service

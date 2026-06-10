@@ -2,14 +2,12 @@
 
 A premium, web-based configuration utility for the **EvoFox Ghost Air gaming mouse** (`VID: 0x04D9, PID: 0xA09E`) on Linux. It allows you to customize button mappings, DPI stages, USB polling rates, and RGB lighting effects, and saves them directly to the mouse's onboard memory.
 
-![Dashboard Preview](evofox_configurator_mockup.png)
+![Dashboard Preview](dashboard_actual.png)
 
 ## Features
 
 - **Profile Manager**: Create, rename, delete, and switch between multiple custom configuration profiles.
 - **Interactive Button Remapping**: Rebind any of the 8 physical mouse buttons or scroll wheel directions to mouse clicks, multimedia commands, or custom keyboard keys.
-- **DPI Configurator**: Toggle up to 8 DPI stages and adjust resolutions dynamically (200 to 12400 DPI) along with custom LED colors matching each stage.
-- **RGB Lighting Controls**: Customize LED animation modes (Off, Static, Neon, Wave, Breathing, Yo-Yo, etc.), brightness intensities, and speed levels.
 - **Performance Settings**: Configure pointer precision, double-click speeds, and polling rates (125Hz to 1000Hz).
 - **Background Daemon**: Auto-starts via a standard systemd user service upon login.
 
@@ -20,7 +18,7 @@ A premium, web-based configuration utility for the **EvoFox Ghost Air gaming mou
 This utility supports all major Linux distributions. The installer automatically detects your package manager and sets up the required dependencies.
 
 ### 1. Run the Installer
-Run the automated script to set up system dependencies, python packages, user space udev permissions, and the systemd daemon:
+Run the automated script to set up system dependencies, python packages, user space udev permissions, the systemd daemon, and the Desktop App shortcut:
 
 ```bash
 chmod +x install.sh
@@ -32,13 +30,13 @@ chmod +x install.sh
 **IMPORTANT**: Once the script finishes successfully, **unplug and replug your mouse** so the system applies the newly installed udev permissions.
 
 ### 2. Configure Your Mouse
-Open your web browser and navigate to:
+Open your Linux application launcher and search for **EvoFox Ghost Air Config** to open the dashboard. Alternatively, navigate to:
 
 ```
 http://localhost:18988
 ```
 
-Select a profile, make adjustments, and click **Save & Apply**. Once saved, you can close the browser—the configuration is applied directly to the mouse's onboard memory and persists across devices.
+Select a profile, make adjustments, and click **Save & Apply**. Once saved, you can close the app—the configuration is applied directly to the mouse's onboard memory and persists across devices.
 
 ---
 
